@@ -43,6 +43,7 @@ Mako = "==1.1.6"
 MarkupSafe = "==2.1.0"
 PyYAML = "==5.4.1"
 SQLAlchemy = "==1.4.31"
+pyjwt = "*"
 
 [dev-packages]
 
