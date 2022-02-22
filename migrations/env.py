@@ -7,6 +7,7 @@ from alembic import context
 
 from db_setup import Base
 from auth.models import User
+from conversationgroup.models import ConversationGroup, Message
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
