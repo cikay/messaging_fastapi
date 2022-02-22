@@ -1,7 +1,7 @@
 
 from datetime import datetime
 
-from sqlalchemy import Column, ForeignKey, Integer, DateTime, Text, Table
+from sqlalchemy import Column, ForeignKey, Integer, DateTime, Text, Table, String
 from sqlalchemy.orm import relationship
 
 from db_setup import Base
@@ -18,6 +18,7 @@ class ConversationGroup(Base):
     __tablename__ = 'conversationgroup'
 
     id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
     users = relationship(User, secondary=conversationgroup_user)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
