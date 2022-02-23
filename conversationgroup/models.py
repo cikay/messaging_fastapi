@@ -19,7 +19,7 @@ class ConversationGroup(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
-    users = relationship(User, secondary=conversationgroup_user)
+    users = relationship(User, secondary=conversationgroup_user, uselist=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
