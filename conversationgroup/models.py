@@ -30,6 +30,7 @@ class Message(Base):
     id = Column(Integer, primary_key=True, index=True)
     content = Column(Text, nullable=False)
     conversationgroup_id = Column(Integer, ForeignKey(ConversationGroup.id), nullable=False)
-    sender = relationship(User, back_populates="Message", uselist=False)
+    sender_id = Column(Integer,  ForeignKey('user.id'))
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    sender = relationship("User")
