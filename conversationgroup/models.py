@@ -10,7 +10,7 @@ from auth.models import User
 
 conversationgroup_user = Table('conversationgroup_user', Base.metadata,
     Column('conversationgroup_id', ForeignKey('conversationgroup.id'), primary_key=True),
-    Column('message_id', ForeignKey('message.id'), primary_key=True)
+    Column('user_id', ForeignKey('user.id'), primary_key=True)
 )
 
 
