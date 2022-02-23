@@ -1,6 +1,6 @@
 
 from pyexpat import model
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session, query
 from sqlalchemy.sql import select
 
@@ -24,3 +24,18 @@ async def create(
     db.commit()
     db.refresh(model_conversationgroup)
     return "Group was created successfully"
+
+
+@conversationgroup_router.post('/message/create')
+async def create_message(message_schema: schemas.MessageCreate, db: Session = Depends(get_db)):
+    users_id = db.query(models.ConversationGroup.id).filter(
+        models.ConversationGroup.id==message_schema.conversationgroup_id
+    ).all()
+    users_id = [user_id for user_id, in users_id]
+    if message_schema.sender_id not in users_id:
+        raise HTTPException(status_code=404, detail="User must be member of group")
+    message_model = models.Message(**message_schema.dict())
+    db.add(message_model)
+    db.commit()
+    db.refresh(message_model)
+    return "Message was created successfully"
