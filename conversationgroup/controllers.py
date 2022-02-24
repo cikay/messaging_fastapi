@@ -42,7 +42,7 @@ async def create_message(message_schema: schemas.MessageCreate, db: Session = De
     db.add(message_model)
     db.commit()
     db.refresh(message_model)
-    return "Message was created successfully"
+    return message_model
 
 
 @conversationgroup_router.get('/messages')
