@@ -25,7 +25,12 @@ async def create(schema_user: schemas.User, db: Session = Depends(get_db)):
     db.add(model_user)
     db.commit()
     db.refresh(model_user)
-    return "Created successfully"
+    return {
+        'username': model_user.username,
+        'firstname': model_user.firstname,
+        'lastname': model_user.lastname,
+        'id': model_user.id
+    }
 
 
 @auth_router.post("/login")
