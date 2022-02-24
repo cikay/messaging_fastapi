@@ -46,6 +46,7 @@ SQLAlchemy = "==1.4.31"
 pyjwt = "*"
 ipdb = "*"
 passlib = "*"
+python-jose = "*"
 
 [dev-packages]
 

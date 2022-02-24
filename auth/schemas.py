@@ -9,3 +9,6 @@ class User(BaseModel):
     username: str
     password: str
 
+class Credentials(BaseModel):
+    username: str
+    password: str

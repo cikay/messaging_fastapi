@@ -7,15 +7,17 @@ from sqlalchemy.sql import select
 
 from conversationgroup import schemas, models
 from auth.models import UserModel
+from auth.utils import get_current_user
 from conversationgroup.models import conversationgroup_user
 from db_setup import get_db
 
 conversationgroup_router = APIRouter(prefix='/conversationgroups')
 
-@conversationgroup_router.post("/create")
+@conversationgroup_router.post("/create/")
 async def create(
     schema_conversationgroup: schemas.ConversationGroupCreate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: schemas.User = Depends(get_current_user)
 ):
     users_query = db.query(UserModel).filter(
         UserModel.id.in_(schema_conversationgroup.users)
@@ -29,8 +31,12 @@ async def create(
     return model_conversationgroup
 
 
-@conversationgroup_router.post('/message/create')
-async def create_message(message_schema: schemas.MessageCreate, db: Session = Depends(get_db)):
+@conversationgroup_router.post('/message/create/')
+async def create_message(
+    message_schema: schemas.MessageCreate,
+    db: Session = Depends(get_db),
+    current_user: schemas.User = Depends(get_current_user)
+):
     c_group = db.query(models.ConversationGroup).where(
         models.ConversationGroup.id==message_schema.conversationgroup_id
     ).first()
@@ -45,8 +51,12 @@ async def create_message(message_schema: schemas.MessageCreate, db: Session = De
     return message_model
 
 
-@conversationgroup_router.get('/messages')
-async def get_messages(conversationgroup_id: int, db: Session=Depends(get_db)):
+@conversationgroup_router.get('/messages/')
+async def get_messages(
+    conversationgroup_id: int,
+    db: Session=Depends(get_db),
+    current_user: schemas.User = Depends(get_current_user)
+):
     c_groups = db.query(models.ConversationGroup.id).filter(
         models.ConversationGroup.id==conversationgroup_id
     )
