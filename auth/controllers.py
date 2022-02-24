@@ -1,17 +1,21 @@
-import bcrypt
 import jwt
 from datetime import datetime, timedelta
 
-from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPBasicCredentials
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+from passlib.context import CryptContext
 
 from auth import schemas, models
 from auth.models import UserModel
 from db_setup import get_db
 
 auth_router = APIRouter(prefix='/users')
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 @auth_router.post("/create")
 async def create(schema_user: schemas.User, db: Session = Depends(get_db)):
@@ -39,27 +43,29 @@ def login(credentials: HTTPBasicCredentials, db: Session = Depends(get_db)):
         UserModel.username == credentials.username
     ).first()
 
-    if not (user or bcrypt.checkpw(credentials.password, user.password)):
-        raise HTTPException(status_code=404, detail="Credentials are not correct")
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token = create_access_token(
+        data={
+            "user_id": user.id,
+            "username": user.username
+        }
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
 
-    token = generate_jwt_token(user)
-    return {
-        "username": user.username,
-        "firstname": user.firstname,
-        "lastname": user.lastname,
-        "token": token
-    }
+
+def generate_hash_password(plain_password):
+    return pwd_context.hash(plain_password)
 
 
-def generate_hash_password(password):
-    return bcrypt.hashpw(password, bcrypt.gensalt())
 
 
-def generate_jwt_token(user: UserModel):
-    payload = {
-        "username": user.username,
-        "user_id": user.id,
-        "exp": datetime.utcnow() + timedelta(hours=2)
-    }
-    return jwt.encode(payload=payload, key="secret", algorithm="HS256")
+def create_access_token(data: dict):
+    to_encode = data.copy()
+    to_encode["exp"] = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
