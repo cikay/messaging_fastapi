@@ -26,7 +26,7 @@ async def create(
     db.add(model_conversationgroup)
     db.commit()
     db.refresh(model_conversationgroup)
-    return "Group was created successfully"
+    return model_conversationgroup
 
 
 @conversationgroup_router.post('/message/create')
