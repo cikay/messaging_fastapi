@@ -40,3 +40,14 @@ async def create_message(message_schema: schemas.MessageCreate, db: Session = De
     db.commit()
     db.refresh(message_model)
     return "Message was created successfully"
+
+
+@conversationgroup_router.get('/messages')
+async def get_messages(conversationgroup_id: int, db: Session=Depends(get_db)):
+    c_groups = db.query(models.ConversationGroup.id).filter(
+        models.ConversationGroup.id==conversationgroup_id
+    )
+    c_groups_id = [c_group_id for c_group_id, in c_groups]
+    return db.query(models.Message).filter(
+        models.Message.conversationgroup_id.in_(c_groups_id)
+    ).all()
