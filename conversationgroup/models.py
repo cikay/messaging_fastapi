@@ -18,7 +18,7 @@ class ConversationGroup(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
-    users = relationship("User", secondary=conversationgroup_user, uselist=True, backref="users")
+    users = relationship("UserModel", secondary=conversationgroup_user, uselist=True, backref="users")
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
@@ -32,4 +32,4 @@ class Message(Base):
     sender_id = Column(Integer,  ForeignKey('user.id'))
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
-    sender = relationship("User")
+    sender = relationship("UserModel")

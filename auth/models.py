@@ -7,7 +7,7 @@ from sqlalchemy import Column, DateTime
 from db_setup import Base
 
 
-class User(Base):
+class UserModel(Base):
     __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True, index=True)

@@ -7,6 +7,7 @@ from fastapi.security import HTTPBasicCredentials
 from sqlalchemy.orm import Session
 
 from auth import schemas, models
+from auth.models import UserModel
 from db_setup import get_db
 
 auth_router = APIRouter(prefix='/users')
@@ -15,7 +16,7 @@ auth_router = APIRouter(prefix='/users')
 @auth_router.post("/create")
 async def create(schema_user: schemas.User, db: Session = Depends(get_db)):
     hashed_password = generate_hash_password(schema_user.password)
-    model_user = models.User(
+    model_user = UserModel(
         firstname=schema_user.firstname,
         lastname=schema_user.lastname,
         username=schema_user.username,
@@ -29,8 +30,8 @@ async def create(schema_user: schemas.User, db: Session = Depends(get_db)):
 
 @auth_router.post("/login")
 def login(credentials: HTTPBasicCredentials, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(
-        models.User.username == credentials.username
+    user = db.query(UserModel).filter(
+        UserModel.username == credentials.username
     ).first()
 
     if not (user or bcrypt.checkpw(credentials.password, user.password)):
@@ -49,7 +50,7 @@ def generate_hash_password(password):
     return bcrypt.hashpw(password, bcrypt.gensalt())
 
 
-def generate_jwt_token(user: models.User):
+def generate_jwt_token(user: UserModel):
     payload = {
         "username": user.username,
         "user_id": user.id,
