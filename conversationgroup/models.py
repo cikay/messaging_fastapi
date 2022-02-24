@@ -5,7 +5,6 @@ from sqlalchemy import Column, ForeignKey, Integer, DateTime, Text, Table, Strin
 from sqlalchemy.orm import relationship
 
 from db_setup import Base
-from auth.models import User
 
 
 conversationgroup_user = Table('conversationgroup_user', Base.metadata,
@@ -19,7 +18,7 @@ class ConversationGroup(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
-    users = relationship(User, secondary=conversationgroup_user, uselist=True)
+    users = relationship("User", secondary=conversationgroup_user, uselist=True, backref="users")
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
