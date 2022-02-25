@@ -1,3 +1,4 @@
+psycopg2-binary>=2.8
 alembic==1.7.6
 anyio==3.5.0
 asgiref==3.5.0
