@@ -12,17 +12,3 @@ To create conversation group, put created users id to users list in the request 
 `conversationgroup/create` endpoint and fill the other fields, grab the created conversation group 
 id from response, it is needed to send a message
 
-In order to send a message, enter one of the users id that added to the created conversation group 
-and set sender id and set created conversation group id to conversation group id field in the request
-of `conversationgroups/message/create`
-
-To see if a user that are not included to a conversation group is allowed to send
-message or not, create a new user and pass the newly created user id to request of 
-message without changing conversation group id and try to send. The following error 
-will be occurred 
-
-```json
-{
-  "detail": "User must be member of group"
-}
-```
