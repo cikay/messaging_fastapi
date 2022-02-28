@@ -26,7 +26,7 @@ HTML_AS_STRING = """
             connect_btn.addEventListener('click', (e) => {
                 e.preventDefault()
                 const conversationgroup = document.getElementById("conversationgroup")
-                const conversationgroup_id = conversationgroup.value
+                let conversationgroup_id = conversationgroup.value
                 WEBSOCKET = new WebSocket(
                     `ws://localhost:8000/ws/${conversationgroup_id}`
                 );
