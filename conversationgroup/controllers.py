@@ -31,26 +31,6 @@ async def create(
     return model_conversationgroup
 
 
-@conversationgroup_router.post('/message/create/')
-async def post_message(
-    message_schema: schemas.MessageCreate,
-    db: Session = Depends(get_db),
-    current_user: schemas.User = Depends(get_current_user)
-):
-    c_group = db.query(models.ConversationGroup).where(
-        models.ConversationGroup.id==message_schema.conversationgroup_id
-    ).first()
-
-    users_id = [user.id for user in c_group.users]
-    if message_schema.sender_id not in users_id:
-        raise HTTPException(status_code=404, detail="User must be member of group")
-    message_model = models.Message(**message_schema.dict())
-    db.add(message_model)
-    db.commit()
-    db.refresh(message_model)
-    return message_model
-
-
 @conversationgroup_router.get('/messages/')
 async def get_messages(
     conversationgroup_id: int,
