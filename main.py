@@ -47,7 +47,6 @@ async def send_message(
     try:
         while True:
             content = await websocket.receive_text()
-            await manager.send_personal_message(f"You wrote: {content}", websocket)
-            await manager.broadcast(f"Client says: {content}", websocket)
+            await manager.broadcast(content, websocket)
     except:
         await websocket.close("User left")

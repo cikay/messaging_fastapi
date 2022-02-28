@@ -25,7 +25,10 @@ class ConnectionManager:
         id_ = self.get_conversationgroup_id(sender_websocket)
         connections = self.connection_groups[id_]
         for connection in connections:
-            await connection.send_text(message)
+            if connection == sender_websocket:
+                await connection.send_text(f"You wrote: {message}")
+            else:
+                await connection.send_text(f"Client says: {message}")
 
     @staticmethod
     def get_conversationgroup_id(websocket):
