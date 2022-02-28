@@ -8,7 +8,7 @@ uri = os.environ.get('DATABASE_URL')
 if uri and uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
 
-SQLALCHEMY_DATABASE_URL = uri
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:postgres@0.0.0.0/messaging_fastapi"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={}, future=True)
 

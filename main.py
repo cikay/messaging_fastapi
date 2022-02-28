@@ -1,8 +1,7 @@
 from fastapi import FastAPI, APIRouter, Depends, WebSocket, WebSocketDisconnect, Query
 from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
-from fastapi_jwt_auth import AuthJWT
-from fastapi_jwt_auth.exceptions import AuthJWTException
+
 
 from db_setup import engine 
 from auth.controllers import auth_router
