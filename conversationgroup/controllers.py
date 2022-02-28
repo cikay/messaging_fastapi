@@ -32,7 +32,7 @@ async def create(
 
 
 @conversationgroup_router.post('/message/create/')
-async def create_message(
+async def post_message(
     message_schema: schemas.MessageCreate,
     db: Session = Depends(get_db),
     current_user: schemas.User = Depends(get_current_user)
