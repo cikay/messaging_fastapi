@@ -12,3 +12,13 @@ To create conversation group, put created users id to users list in the request 
 `conversationgroup/create` endpoint and fill the other fields, grab the created conversation group 
 id from response, it is needed to send a message
 
+Websocket added but it is not related with the above endpoints. There is no authentication feature
+in to send a message by websocket endpoint.
+
+In order to use sending message go to `/` endpoint and enter the conversation group id and hit the
+connect button to have a connection
+
+Then fill the text input and hit the send button. To see whether the message is sent to all clients
+open the same endpoint in a different browser and send another message. The conversation group id should
+the same to see the message that are sent by the other clients
+
