@@ -1,18 +1,11 @@
-# syntax=docker/dockerfile:1
+FROM python:3.9
 
-FROM python:3.8-slim
+WORKDIR /code
 
-WORKDIR /app
+COPY ./requirements.txt /code/requirements.txt
 
-ENV PATH="/opt/venv/bin:$PATH"
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-COPY requirements.txt requirements.txt
+COPY . /code/app
 
-RUN python3 -m venv /opt/venv
-
-RUN /opt/venv/bin/pip install pip --upgrade && \
-    /opt/venv/bin/pip install -r requirements.txt
-
-COPY . .
-
-CMD ["uvicorn", "main:app", "--reload"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
