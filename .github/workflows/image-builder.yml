@@ -14,5 +14,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+    - name: Build and Push image
+      uses: mr-smithers-excellent/docker-build-push@v5
+      with:
+        image: muzaffercikay/messaging_fastapi
+        tags: v1, latest
+        registry: docker.io
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
