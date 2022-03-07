@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
 
 
-from db_setup import engine 
+from db_setup import engine
 from auth.controllers import auth_router
 from auth.models import UserModel
 from conversationgroup.controllers import conversationgroup_router
@@ -47,5 +47,5 @@ async def send_message(
         while True:
             content = await websocket.receive_text()
             await manager.broadcast(content, websocket)
-    except:
+    except BaseException:
         await websocket.close("User left")

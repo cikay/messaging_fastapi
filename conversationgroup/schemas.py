@@ -11,6 +11,7 @@ class ConversationGroupCreate(BaseModel):
     name: str
     users: List[int]
 
+
 class ConversationGroupUpdate(ConversationGroupCreate, metaclass=AllOptional):
     pass
 
