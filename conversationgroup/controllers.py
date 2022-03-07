@@ -57,10 +57,11 @@ async def get_messages(
     db: Session=Depends(get_db),
     current_user: schemas.User = Depends(get_current_user)
 ):
-    c_groups = db.query(models.ConversationGroup.id).filter(
-        models.ConversationGroup.id==conversationgroup_id
-    )
-    c_groups_id = [c_group_id for c_group_id, in c_groups]
+    c_groups_id = db.scalars(
+        select(models.ConversationGroup.id).where(
+            models.ConversationGroup.id==conversationgroup_id
+        )
+    ).all()
     return db.query(models.Message).filter(
         models.Message.conversationgroup_id.in_(c_groups_id)
     ).all()
