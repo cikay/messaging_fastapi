@@ -10,6 +10,7 @@ from conversationgroup.schemas import ConversationGroupUpdate
 from auth.models import UserModel
 from auth.utils import get_current_user
 from conversationgroup.models import conversationgroup_user
+from conversationgroup.utils import get_single_field
 from db_setup import get_db
 
 conversationgroup_router = APIRouter(prefix='/conversationgroups')
@@ -57,11 +58,7 @@ async def get_messages(
     db: Session=Depends(get_db),
     current_user: schemas.User = Depends(get_current_user)
 ):
-    c_groups_id = db.scalars(
-        select(models.ConversationGroup.id).where(
-            models.ConversationGroup.id==conversationgroup_id
-        )
-    ).all()
+    c_groups_id = get_single_field(db, models.ConversationGroup.id, conversationgroup_id)
     return db.query(models.Message).filter(
         models.Message.conversationgroup_id.in_(c_groups_id)
     ).all()
