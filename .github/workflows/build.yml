@@ -12,3 +12,11 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    
+    - uses: actions/checkout@master
+      with:
+      ref: ${{ github.event.pull_request.head.sha }}
+    - name: 'Run PEP8'
+      uses: quentinguidee/pep8-action@v1
+      with:
+        arguments: '--max-line-length=120'
