@@ -2,6 +2,7 @@ from typing import List, Dict
 
 from fastapi import WebSocket
 
+
 class ConnectionManager:
     def __init__(self):
         self.connection_groups: Dict[str, List[WebSocket]] = {}

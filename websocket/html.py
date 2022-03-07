@@ -53,7 +53,7 @@ HTML_AS_STRING = """
                 WEBSOCKET.send(input.value)
                 input.value = ''
             }
-        
+
         </script>
     </body>
 </html>

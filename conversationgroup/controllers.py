@@ -15,6 +15,7 @@ from db_setup import get_db
 
 conversationgroup_router = APIRouter(prefix='/conversationgroups')
 
+
 @conversationgroup_router.post("/create/")
 async def create(
     schema_conversationgroup: schemas.ConversationGroupCreate,
@@ -42,7 +43,7 @@ async def update_partially(
 ):
     partial_update = schema_conversationgroup.dict(exclude_unset=True)
     model_instance = db.query(models.ConversationGroup).filter(
-        models.ConversationGroup.id==item_id
+        models.ConversationGroup.id == item_id
     ).first()
     model_instance.__dict__.update(partial_update)
     db.commit()
@@ -50,15 +51,14 @@ async def update_partially(
     return model_instance
 
 
-
-
 @conversationgroup_router.get('/messages/')
 async def get_messages(
     conversationgroup_id: int,
-    db: Session=Depends(get_db),
+    db: Session = Depends(get_db),
     current_user: schemas.User = Depends(get_current_user)
 ):
-    c_groups_id = get_single_field(db, models.ConversationGroup.id, conversationgroup_id)
+    c_groups_id = get_single_field(
+        db, models.ConversationGroup.id, conversationgroup_id)
     return db.query(models.Message).filter(
         models.Message.conversationgroup_id.in_(c_groups_id)
     ).all()
