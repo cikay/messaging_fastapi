@@ -2,6 +2,7 @@ alembic==1.7.6
 anyio==3.5.0
 asgiref==3.5.0
 asttokens==2.0.5
+autopep8==1.6.0
 backcall==0.2.0
 black==22.1.0
 CacheControl==0.12.10
@@ -62,6 +63,7 @@ ptyprocess==0.7.0
 pure-eval==0.2.2
 py-bcrypt==0.4
 pyasn1==0.4.8
+pycodestyle==2.8.0
 pycparser==2.21
 pydantic==1.9.0
 Pygments==2.11.2
