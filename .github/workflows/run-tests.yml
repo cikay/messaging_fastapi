@@ -32,4 +32,4 @@ jobs:
         env:
           # add environment variables for tests
         run: |
-          pytest
+          pytest test/
