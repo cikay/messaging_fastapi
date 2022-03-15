@@ -4,3 +4,4 @@ __pycache__/
 local.env
 docker.env
 .pytest_cache/
+data/
