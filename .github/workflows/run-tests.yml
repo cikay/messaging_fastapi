@@ -70,13 +70,6 @@ jobs:
         # stop the build if there are Python syntax errors or undefined names
         isort .
         isort --check --diff .
-    - name: Setup test database
-      env:
-        POSTGRES_USER: ${{ matrix.database-user }}
-        POSTGRES_PASSWORD: ${{ matrix.database-password }}
-        POSTGRES_SERVER: ${{ matrix.database-host }}
-        POSTGRES_PORT: ${{ matrix.database-port }}
-        POSTGRES_DB: ${{ matrix.database-name }}
     - name: Run tests
       run: |
           pytest tests
