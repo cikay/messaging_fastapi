@@ -4,11 +4,19 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-uri = os.environ.get('DATABASE_URL')
-if uri and uri.startswith("postgres://"):
-    uri = uri.replace("postgres://", "postgresql://", 1)
+from config import settings
 
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:postgres@0.0.0.0/messaging_fastapi"
+
+POSTGRES_USER = settings.postgres_user
+POSTGRES_PASSWORD = settings.postgres_password
+POSTGRES_SERVER = settings.postgres_server
+POSTGRES_PORT = settings.postgres_port
+POSTGRES_DB = settings.postgres_db
+
+SQLALCHEMY_DATABASE_URL = f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}\
+@{POSTGRES_SERVER}/{POSTGRES_DB}'
+
+engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={}, future=True)
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={}, future=True)
 
