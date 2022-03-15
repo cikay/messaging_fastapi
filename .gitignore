@@ -2,6 +2,5 @@ venv/
 __pycache__/
 .env
 local.env
-docker.env
 .pytest_cache/
 data/

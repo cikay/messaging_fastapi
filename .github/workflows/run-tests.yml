@@ -30,6 +30,10 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Unit Testing with pytest
         env:
-          # add environment variables for tests
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: messaging_fastapi
+          POSTGRES_SERVER: postgres_db
+          POSTGRES_PORT: 5433
         run: |
-          pytest test/
+          pytest tests/
