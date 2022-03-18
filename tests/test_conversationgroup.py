@@ -30,7 +30,6 @@ def test_create_conversationgroup():
         'Authorization': f'Bearer {token_data["access_token"]}'
     }
     conversationgroup_payload = {
-        'name': 'Test',
         'users': []
     }
     cgroup_response = client.post(
