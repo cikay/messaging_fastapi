@@ -19,7 +19,6 @@ def test_create_user():
 
 def test_login():
     data = {
-        'firstname': 'Test user',
         'lastname': 'Test',
         'username': 'test_user',
         'password': '6g#-UKMrdZwF!Khq'
